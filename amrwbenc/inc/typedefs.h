@@ -205,6 +205,8 @@ typedef int Bool;
 #define     Dot_product12    voAWB_Dot_product12
 #define     mem_malloc       voAWB_mem_malloc
 #define     mem_free         voAWB_mem_free
+#define     fir_6k_7k        voAWB_fir_6k_7k
+#define     inter4_2         voAWB_inter4_2
 /******************************************************/
 
 #endif  //#define __TYPEDEFS_H__
