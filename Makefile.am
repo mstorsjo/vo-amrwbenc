@@ -65,3 +65,11 @@ libvo_amrwbenc_la_SOURCES = \
     $(ENC_SRC)/voicefac.c \
     $(ENC_SRC)/wb_vad.c \
     $(ENC_SRC)/weight_a.c
+
+bin_PROGRAMS = amrwb-enc$(EXEEXT)
+
+amrwb_enc_LDADD = libvo-amrwbenc.la
+amrwb_enc_SOURCES = amrwb-enc.cpp wavreader.cpp
+
+noinst_HEADERS = wavreader.h
+
