@@ -28,7 +28,7 @@
           .section  .text
           .global  Filt_6k_7k_asm
           .extern  voAWB_Copy
-          .extern  fir_6k_7k
+          .extern  voAWB_fir_6k_7k
 
 Filt_6k_7k_asm:
 
@@ -178,7 +178,7 @@ Filt_6k_7k_end:
           LDMFD   		r13!, {r4 - r12, r15} 
  
 Lable1:
-          .word   		fir_6k_7k
+          .word   		voAWB_fir_6k_7k
           @ENDFUNC
           .END
 
