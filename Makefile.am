@@ -3,7 +3,7 @@ ENC_SRC = amrwbenc/src
 
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CFLAGS = -Iamrwbenc/inc -Icommon/include
+AM_CFLAGS = -I$(top_srcdir)/amrwbenc/inc -I$(top_srcdir)/common/include
 
 amrwbencincludedir = $(includedir)/vo-amrwbenc
 amrwbencinclude_HEADERS = enc_if.h
