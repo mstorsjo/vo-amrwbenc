@@ -5,6 +5,14 @@ ACLOCAL_AMFLAGS = -I m4
 
 AM_CFLAGS = -I$(top_srcdir)/amrwbenc/inc -I$(top_srcdir)/common/include
 
+if ARMV7NEON
+    AM_CFLAGS += -DARM -DARMV7 -DASM_OPT
+else
+if ARMV5E
+    AM_CFLAGS += -DARM -DASM_OPT
+endif
+endif
+
 amrwbencincludedir = $(includedir)/vo-amrwbenc
 amrwbencinclude_HEADERS = enc_if.h
 
@@ -65,6 +73,36 @@ libvo_amrwbenc_la_SOURCES = \
     $(ENC_SRC)/voicefac.c \
     $(ENC_SRC)/wb_vad.c \
     $(ENC_SRC)/weight_a.c
+
+if ARMV7NEON
+    libvo_amrwbenc_la_SOURCES += \
+        $(ENC_SRC)/asm/ARMV7/convolve_neon.s \
+        $(ENC_SRC)/asm/ARMV7/cor_h_vec_neon.s \
+        $(ENC_SRC)/asm/ARMV7/Deemph_32_neon.s \
+        $(ENC_SRC)/asm/ARMV7/Dot_p_neon.s \
+        $(ENC_SRC)/asm/ARMV7/Filt_6k_7k_neon.s \
+        $(ENC_SRC)/asm/ARMV7/Norm_Corr_neon.s \
+        $(ENC_SRC)/asm/ARMV7/pred_lt4_1_neon.s \
+        $(ENC_SRC)/asm/ARMV7/residu_asm_neon.s \
+        $(ENC_SRC)/asm/ARMV7/scale_sig_neon.s \
+        $(ENC_SRC)/asm/ARMV7/Syn_filt_32_neon.s \
+        $(ENC_SRC)/asm/ARMV7/syn_filt_neon.s
+else
+if ARMV5E
+    libvo_amrwbenc_la_SOURCES += \
+        $(ENC_SRC)/asm/ARMV5E/convolve_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/cor_h_vec_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/Deemph_32_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/Dot_p_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/Filt_6k_7k_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/Norm_Corr_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/pred_lt4_1_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/residu_asm_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/scale_sig_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/Syn_filt_32_opt.s \
+        $(ENC_SRC)/asm/ARMV5E/syn_filt_opt.s
+endif
+endif
 
 bin_PROGRAMS = amrwb-enc$(EXEEXT)
 
