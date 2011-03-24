@@ -111,3 +111,9 @@ amrwb_enc_SOURCES = amrwb-enc.cpp wavreader.cpp
 
 noinst_HEADERS = wavreader.h
 
+noinst_HEADERS += amrwbenc/inc/*.h amrwbenc/inc/*.tab common/include/*.h
+
+EXTRA_DIST = amrwbenc/*.cpp amrwbenc/*.mk amrwbenc/SampleCode \
+             amrwbenc/build amrwbenc/doc amrwbenc/*.txt \
+             amrwbenc/src/cmnMemory.c common/*.mk
+
