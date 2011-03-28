@@ -45,7 +45,8 @@ int findMode(const char* str) {
 	int rate = atoi(str);
 	int closest = -1;
 	int closestdiff = 0;
-	for (unsigned int i = 0; i < sizeof(modes)/sizeof(modes[0]); i++) {
+	unsigned int i;
+	for (i = 0; i < sizeof(modes)/sizeof(modes[0]); i++) {
 		if (modes[i].rate == rate)
 			return modes[i].mode;
 		if (closest < 0 || closestdiff > abs(modes[i].rate - rate)) {
@@ -60,6 +61,12 @@ int findMode(const char* str) {
 int main(int argc, char *argv[]) {
 	int mode = 8;
 	int ch;
+	const char *infile, *outfile;
+	FILE* out;
+	void *wav, *amr;
+	int format, sampleRate, channels, bitsPerSample;
+	int inputSize;
+	uint8_t* inputBuf;
 	while ((ch = getopt(argc, argv, "r:")) != -1) {
 		switch (ch) {
 		case 'r':
@@ -75,17 +82,15 @@ int main(int argc, char *argv[]) {
 		usage(argv[0]);
 		return 1;
 	}
-	const char* infile = argv[optind];
-	const char* outfile = argv[optind + 1];
+	infile = argv[optind];
+	outfile = argv[optind + 1];
 
-	FILE* out;
 
-	void* wav = wav_read_open(infile);
+	wav = wav_read_open(infile);
 	if (!wav) {
 		fprintf(stderr, "Unable to open wav file %s\n", infile);
 		return 1;
 	}
-	int format, sampleRate, channels, bitsPerSample;
 	if (!wav_get_header(wav, &format, &channels, &sampleRate, &bitsPerSample, NULL)) {
 		fprintf(stderr, "Bad wav file %s\n", infile);
 		return 1;
@@ -102,10 +107,10 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "Warning, only compressing one audio channel\n");
 	if (sampleRate != 16000)
 		fprintf(stderr, "Warning, AMR-WB uses 16000 Hz sample rate (WAV file has %d Hz)\n", sampleRate);
-	int inputSize = channels*2*320;
-	uint8_t* inputBuf = new uint8_t[inputSize];
+	inputSize = channels*2*320;
+	inputBuf = (uint8_t*) malloc(inputSize);
 
-	void* amr = E_IF_init();
+	amr = E_IF_init();
 	out = fopen(outfile, "wb");
 	if (!out) {
 		perror(outfile);
@@ -113,22 +118,24 @@ int main(int argc, char *argv[]) {
 	}
 
 	fwrite("#!AMR-WB\n", 1, 9, out);
-	while (true) {
-		int read = wav_read_data(wav, inputBuf, inputSize);
+	while (1) {
+		int read, i, n;
+		short buf[320];
+		uint8_t outbuf[500];
+
+		read = wav_read_data(wav, inputBuf, inputSize);
 		read /= channels;
 		read /= 2;
 		if (read < 320)
 			break;
-		short buf[320];
-		for (int i = 0; i < 320; i++) {
+		for (i = 0; i < 320; i++) {
 			const uint8_t* in = &inputBuf[2*channels*i];
 			buf[i] = in[0] | (in[1] << 8);
 		}
-		uint8_t outbuf[500];
-		int n = E_IF_encode(amr, mode, buf, outbuf, 0);
+		n = E_IF_encode(amr, mode, buf, outbuf, 0);
 		fwrite(outbuf, 1, n, out);
 	}
-	delete [] inputBuf;
+	free(inputBuf);
 	fclose(out);
 	E_IF_exit(amr);
 	wav_read_close(wav);
