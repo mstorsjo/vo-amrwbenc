@@ -104,14 +104,17 @@ if ARMV5E
 endif
 endif
 
+noinst_HEADERS = amrwbenc/inc/*.h amrwbenc/inc/*.tab common/include/*.h
+
+if EXAMPLE
 bin_PROGRAMS = amrwb-enc$(EXEEXT)
 
 amrwb_enc_LDADD = libvo-amrwbenc.la
 amrwb_enc_SOURCES = amrwb-enc.c wavreader.c
 
-noinst_HEADERS = wavreader.h
+noinst_HEADERS += wavreader.h
+endif
 
-noinst_HEADERS += amrwbenc/inc/*.h amrwbenc/inc/*.tab common/include/*.h
 
 EXTRA_DIST = amrwbenc/*.cpp amrwbenc/*.mk amrwbenc/SampleCode \
              amrwbenc/build amrwbenc/doc amrwbenc/*.txt \
