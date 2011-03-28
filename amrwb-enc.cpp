@@ -80,9 +80,13 @@ int main(int argc, char *argv[]) {
 
 	FILE* out;
 
-	WavReader wav(infile);
+	void* wav = wav_read_open(infile);
+	if (!wav) {
+		fprintf(stderr, "Unable to open wav file %s\n", infile);
+		return 1;
+	}
 	int format, sampleRate, channels, bitsPerSample;
-	if (!wav.getHeader(&format, &channels, &sampleRate, &bitsPerSample, NULL)) {
+	if (!wav_get_header(wav, &format, &channels, &sampleRate, &bitsPerSample, NULL)) {
 		fprintf(stderr, "Bad wav file %s\n", infile);
 		return 1;
 	}
@@ -110,7 +114,7 @@ int main(int argc, char *argv[]) {
 
 	fwrite("#!AMR-WB\n", 1, 9, out);
 	while (true) {
-		int read = wav.readData(inputBuf, inputSize);
+		int read = wav_read_data(wav, inputBuf, inputSize);
 		read /= channels;
 		read /= 2;
 		if (read < 320)
@@ -127,6 +131,7 @@ int main(int argc, char *argv[]) {
 	delete [] inputBuf;
 	fclose(out);
 	E_IF_exit(amr);
+	wav_read_close(wav);
 
 	return 0;
 }

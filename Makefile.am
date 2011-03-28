@@ -107,7 +107,7 @@ endif
 bin_PROGRAMS = amrwb-enc$(EXEEXT)
 
 amrwb_enc_LDADD = libvo-amrwbenc.la
-amrwb_enc_SOURCES = amrwb-enc.cpp wavreader.cpp
+amrwb_enc_SOURCES = amrwb-enc.cpp wavreader.c
 
 noinst_HEADERS = wavreader.h
 
