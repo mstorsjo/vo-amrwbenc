@@ -104,7 +104,9 @@ if ARMV5E
 endif
 endif
 
-noinst_HEADERS = amrwbenc/inc/*.h amrwbenc/inc/*.tab common/include/*.h
+noinst_HEADERS = $(top_srcdir)/amrwbenc/inc/*.h \
+                 $(top_srcdir)/amrwbenc/inc/*.tab \
+                 $(top_srcdir)/common/include/*.h
 
 if EXAMPLE
 bin_PROGRAMS = amrwb-enc$(EXEEXT)
@@ -116,7 +118,8 @@ noinst_HEADERS += wavreader.h
 endif
 
 
-EXTRA_DIST = amrwbenc/*.cpp amrwbenc/*.mk amrwbenc/SampleCode \
-             amrwbenc/build amrwbenc/doc amrwbenc/*.txt \
-             amrwbenc/src/cmnMemory.c common/*.mk
+EXTRA_DIST = $(top_srcdir)/amrwbenc/*.cpp $(top_srcdir)/amrwbenc/*.mk \
+             $(top_srcdir)/amrwbenc/SampleCode $(top_srcdir)/amrwbenc/build \
+             $(top_srcdir)/amrwbenc/doc $(top_srcdir)/amrwbenc/*.txt \
+             $(top_srcdir)/amrwbenc/src/cmnMemory.c $(top_srcdir)/common/*.mk
 
