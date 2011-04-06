@@ -24,7 +24,7 @@
 #include "wavreader.h"
 
 void usage(const char* name) {
-	fprintf(stderr, "%s [-r bitrate] in.wav out.amr\n", name);
+	fprintf(stderr, "%s [-r bitrate] [-d] in.wav out.amr\n", name);
 }
 
 int findMode(const char* str) {
@@ -60,17 +60,20 @@ int findMode(const char* str) {
 
 int main(int argc, char *argv[]) {
 	int mode = 8;
-	int ch;
+	int ch, dtx = 0;
 	const char *infile, *outfile;
 	FILE* out;
 	void *wav, *amr;
 	int format, sampleRate, channels, bitsPerSample;
 	int inputSize;
 	uint8_t* inputBuf;
-	while ((ch = getopt(argc, argv, "r:")) != -1) {
+	while ((ch = getopt(argc, argv, "r:d")) != -1) {
 		switch (ch) {
 		case 'r':
 			mode = findMode(optarg);
+			break;
+		case 'd':
+			dtx = 1;
 			break;
 		case '?':
 		default:
@@ -132,7 +135,7 @@ int main(int argc, char *argv[]) {
 			const uint8_t* in = &inputBuf[2*channels*i];
 			buf[i] = in[0] | (in[1] << 8);
 		}
-		n = E_IF_encode(amr, mode, buf, outbuf, 0);
+		n = E_IF_encode(amr, mode, buf, outbuf, dtx);
 		fwrite(outbuf, 1, n, out);
 	}
 	free(inputBuf);
