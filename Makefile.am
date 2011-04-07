@@ -118,7 +118,8 @@ noinst_HEADERS += wavreader.h
 endif
 
 
-EXTRA_DIST = $(top_srcdir)/amrwbenc/*.cpp $(top_srcdir)/amrwbenc/*.mk \
+EXTRA_DIST = $(top_srcdir)/NOTICE \
+             $(top_srcdir)/amrwbenc/*.cpp $(top_srcdir)/amrwbenc/*.mk \
              $(top_srcdir)/amrwbenc/SampleCode $(top_srcdir)/amrwbenc/build \
              $(top_srcdir)/amrwbenc/doc $(top_srcdir)/amrwbenc/*.txt \
              $(top_srcdir)/amrwbenc/src/cmnMemory.c $(top_srcdir)/common/*.mk
