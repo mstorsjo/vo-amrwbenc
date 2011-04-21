@@ -30,6 +30,7 @@ struct encoder_state {
 
 void* E_IF_init(void) {
 	struct encoder_state* state = (struct encoder_state*) malloc(sizeof(struct encoder_state));
+	int frameType = VOAMRWB_RFC3267;
 	voGetAMRWBEncAPI(&state->audioApi);
 	state->memOperator.Alloc = cmnMemAlloc;
 	state->memOperator.Copy = cmnMemCopy;
@@ -39,7 +40,6 @@ void* E_IF_init(void) {
 	state->userData.memflag = VO_IMF_USERMEMOPERATOR;
 	state->userData.memData = (VO_PTR)&state->memOperator;
 	state->audioApi.Init(&state->handle, VO_AUDIO_CodingAMRWB, &state->userData);
-	int frameType = VOAMRWB_RFC3267;
 	state->audioApi.SetParam(state->handle, VO_PID_AMRWB_FRAMETYPE, &frameType);
 	return state;
 }
