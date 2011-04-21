@@ -53,7 +53,6 @@ void E_IF_exit(void* s) {
 int E_IF_encode(void* s, int mode, const short* speech, unsigned char* out, int dtx) {
 	VO_CODECBUFFER inData, outData;
 	VO_AUDIO_OUTPUTINFO outFormat;
-	int ret;
 	struct encoder_state* state = (struct encoder_state*) s;
 
 	state->audioApi.SetParam(state->handle, VO_PID_AMRWB_MODE, &mode);
