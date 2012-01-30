@@ -21,7 +21,7 @@ pkgconfig_DATA = vo-amrwbenc.pc
 
 lib_LTLIBRARIES = libvo-amrwbenc.la
 
-libvo_amrwbenc_la_LDFLAGS = -version-info @VO_AMRWBENC_VERSION@ -no-undefined
+libvo_amrwbenc_la_LDFLAGS = -version-info @VO_AMRWBENC_VERSION@ -no-undefined -export-symbols $(top_srcdir)/vo-amrwbenc.sym
 
 libvo_amrwbenc_la_SOURCES = \
     wrapper.c \
@@ -119,6 +119,7 @@ endif
 
 
 EXTRA_DIST = $(top_srcdir)/NOTICE \
+             $(top_srcdir)/vo-amrwbenc.sym \
              $(top_srcdir)/amrwbenc/*.cpp $(top_srcdir)/amrwbenc/*.mk \
              $(top_srcdir)/amrwbenc/SampleCode $(top_srcdir)/amrwbenc/build \
              $(top_srcdir)/amrwbenc/doc $(top_srcdir)/amrwbenc/*.txt \
