@@ -1,3 +1,9 @@
+0.1.2
+ - Update source files to the latest version upstream (no functional changes)
+ - Hide internal symbols in shared libraries
+ - Whitespace cleanup in the codec code
+ - Minor tweaks
+
 0.1.1
  - Fix building for windows
 
