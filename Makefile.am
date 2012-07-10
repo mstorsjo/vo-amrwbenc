@@ -120,8 +120,13 @@ endif
 
 EXTRA_DIST = $(top_srcdir)/NOTICE \
              $(top_srcdir)/vo-amrwbenc.sym \
-             $(top_srcdir)/amrwbenc/*.cpp $(top_srcdir)/amrwbenc/*.mk \
+             $(top_srcdir)/amrwbenc/*.cpp $(top_srcdir)/amrwbenc/*.h \
+             $(top_srcdir)/amrwbenc/*.mk \
+             $(top_srcdir)/amrwbenc/NOTICE \
+             $(top_srcdir)/amrwbenc/MODULE_LICENSE_APACHE2 \
              $(top_srcdir)/amrwbenc/SampleCode \
              $(top_srcdir)/amrwbenc/doc $(top_srcdir)/amrwbenc/*.txt \
-             $(top_srcdir)/common/*.mk
+             $(top_srcdir)/common/*.mk \
+             $(top_srcdir)/common/NOTICE \
+             $(top_srcdir)/common/MODULE_LICENSE_APACHE2
 
