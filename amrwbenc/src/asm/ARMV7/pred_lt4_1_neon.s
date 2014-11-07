@@ -29,6 +29,7 @@
           .section  .text
           .global   pred_lt4_asm
           .extern   voAWB_inter4_2
+          .hidden   voAWB_inter4_2
 
 pred_lt4_asm:
 
